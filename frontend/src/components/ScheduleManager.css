@@ -1,0 +1,277 @@
+.schedule-manager {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.sm-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sm-header h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 28px;
+}
+
+.btn-back {
+  padding: 8px 16px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  align-self: flex-start;
+}
+
+.btn-back:hover {
+  background: #5a6268;
+  transform: translateX(-2px);
+}
+
+.btn-add {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Filters */
+.filter-bar {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-group label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.filter-group select {
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-reset {
+  padding: 8px 16px;
+  background: #f8f9fa;
+  color: #495057;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-reset:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+/* Table */
+.schedules-table {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.schedules-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedules-table th {
+  background: #f8f9fa;
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  font-size: 14px;
+}
+
+.schedules-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+}
+
+.schedules-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.device-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.device-icon {
+  font-size: 20px;
+}
+
+.action-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.action-badge.action-on {
+  background: #d4edda;
+  color: #155724;
+}
+
+.action-badge.action-off {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.time-cell {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.desc-cell {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.btn-status {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-status.active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.btn-status.inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.btn-status:hover {
+  opacity: 0.8;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 6px 10px;
+  margin: 0 4px;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.btn-edit:hover {
+  background: #e3f2fd;
+}
+
+.btn-delete:hover {
+  background: #ffebee;
+}
+
+/* Stats Footer */
+.stats-footer {
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  color: #495057;
+  font-size: 14px;
+}
+
+.stats-footer strong {
+  color: #667eea;
+  font-size: 16px;
+}
+
+/* Loading & Error */
+.loading {
+  text-align: center;
+  padding: 60px;
+  font-size: 18px;
+  color: #666;
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c33;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .schedules-table {
+    overflow-x: auto;
+  }
+
+  .schedules-table table {
+    min-width: 800px;
+  }
+}

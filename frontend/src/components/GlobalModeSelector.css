@@ -1,0 +1,220 @@
+.global-mode-selector {
+  background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+  border: 2px solid #667eea40;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.08);
+}
+
+/* Sync Toggle */
+.sync-toggle-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.sync-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.sync-toggle-label:hover {
+  border-color: #667eea;
+  background: #f8f9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.sync-toggle-label input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  accent-color: #667eea;
+}
+
+.sync-toggle-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c3e50;
+  flex: 1;
+}
+
+.sync-toggle-hint {
+  font-size: 13px;
+  color: #6c757d;
+  padding-left: 34px;
+  font-style: italic;
+}
+
+/* Mode Buttons Section */
+.global-mode-buttons {
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mode-section-header {
+  margin-bottom: 12px;
+}
+
+.mode-section-header h4 {
+  margin: 0 0 16px 0;
+  font-size: 15px;
+  color: #667eea;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.mode-btn-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.global-mode-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px 16px;
+  background: white;
+  border: 3px solid #e9ecef;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  min-height: 120px;
+}
+
+.global-mode-btn:hover:not(:disabled) {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.25);
+}
+
+.global-mode-btn.active {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5);
+  transform: translateY(-2px);
+}
+
+.global-mode-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mode-icon {
+  font-size: 40px;
+  transition: transform 0.3s ease;
+}
+
+.global-mode-btn:hover:not(:disabled) .mode-icon {
+  transform: scale(1.15);
+}
+
+.global-mode-btn.active .mode-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.3));
+}
+
+.mode-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c3e50;
+  transition: color 0.3s;
+  letter-spacing: 0.3px;
+}
+
+.global-mode-btn.active .mode-label {
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mode-desc {
+  font-size: 12px;
+  color: #6c757d;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.3s;
+  line-height: 1.4;
+}
+
+.global-mode-btn.active .mode-desc {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.badge-pump {
+  display: inline-block;
+  font-size: 12px;
+}
+
+/* Sensor Warning */
+.sensor-warning {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+  border: 2px solid #ffc107;
+  border-radius: 12px;
+  color: #856404;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.15);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.sensor-warning strong {
+  color: #856404;
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mode-btn-group {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .global-mode-btn {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 16px 20px;
+    min-height: auto;
+  }
+  
+  .mode-icon {
+    font-size: 32px;
+  }
+  
+  .mode-label {
+    font-size: 15px;
+  }
+  
+  .mode-desc {
+    font-size: 11px;
+  }
+}

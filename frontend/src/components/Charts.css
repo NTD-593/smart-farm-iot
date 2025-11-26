@@ -1,0 +1,331 @@
+.charts-page {
+  padding: 0;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card.temperature {
+  border-color: #ffe0e0;
+}
+
+.stat-card.temperature:hover {
+  border-color: #ff6b6b;
+}
+
+.stat-card.humidity {
+  border-color: #e0f2ff;
+}
+
+.stat-card.humidity:hover {
+  border-color: #4dabf7;
+}
+
+.stat-card.soil {
+  border-color: #d3f9d8;
+}
+
+.stat-card.soil:hover {
+  border-color: #51cf66;
+}
+
+.stat-icon {
+  font-size: 48px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.stat-details {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.stat-details span {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.trend-up {
+  color: #51cf66 !important;
+  font-weight: 600;
+}
+
+.trend-down {
+  color: #ff6b6b !important;
+  font-weight: 600;
+}
+
+.stat-range {
+  font-size: 12px;
+  color: #adb5bd;
+  padding-top: 8px;
+  border-top: 1px solid #e9ecef;
+}
+
+/* Chart Controls */
+.chart-controls {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.time-filters {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.time-filters button {
+  padding: 10px 20px;
+  border: 2px solid #e9ecef;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6c757d;
+  transition: all 0.3s;
+  height: 40px;
+  min-width: 80px;
+}
+
+.time-filters button:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: #f8f9ff;
+}
+
+.time-filters button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.sensor-toggles {
+  display: flex;
+  gap: 8px;
+}
+
+.toggle-btn {
+  padding: 8px 16px;
+  border: 2px solid #e9ecef;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6c757d;
+  transition: all 0.3s;
+  opacity: 0.5;
+  height: 40px;
+  min-width: 110px;
+}
+
+.toggle-btn:hover {
+  opacity: 1;
+}
+
+.toggle-btn.active {
+  opacity: 1;
+  border-color: transparent;
+}
+
+.toggle-btn.temperature.active {
+  background: linear-gradient(135deg, #51cf66 0%, #69db7c 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3);
+}
+
+.toggle-btn.humidity.active {
+  background: linear-gradient(135deg, #51cf66 0%, #69db7c 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3);
+}
+
+.toggle-btn.soil.active {
+  background: linear-gradient(135deg, #51cf66 0%, #69db7c 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3);
+}
+
+.export-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3);
+  height: 40px;
+  min-width: 120px;
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(81, 207, 102, 0.4);
+}
+
+/* Chart Cards */
+.chart-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
+}
+
+.chart-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.chart-card h2 {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #6c757d;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Recharts Custom Styles */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #f0f0f0;
+}
+
+.recharts-text {
+  fill: #6c757d;
+  font-size: 12px;
+}
+
+.recharts-legend-wrapper {
+  padding-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .chart-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .time-filters,
+  .sensor-toggles {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .time-filters button,
+  .toggle-btn {
+    flex: 1;
+  }
+
+  .export-btn {
+    width: 100%;
+  }
+
+  .stat-card {
+    padding: 20px;
+  }
+
+  .stat-icon {
+    font-size: 40px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+  }
+
+  .chart-card {
+    padding: 16px;
+  }
+
+  .chart-card h2 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .time-filters {
+    flex-wrap: wrap;
+  }
+
+  .time-filters button {
+    flex: 1 1 calc(50% - 4px);
+  }
+
+  .sensor-toggles {
+    flex-direction: column;
+  }
+}
