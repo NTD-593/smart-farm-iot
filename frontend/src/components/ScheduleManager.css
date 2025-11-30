@@ -153,6 +153,9 @@
 
 .device-icon {
   font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
 }
 
 .action-badge {

@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { 
+  MdSchedule, 
+  MdAdd, 
+  MdEdit, 
+  MdDelete, 
+  MdSearch, 
+  MdRefresh, 
+  MdCheckCircle, 
+  MdCancel,
+  MdPowerSettingsNew,
+  MdAccessTime,
+  MdBarChart
+} from 'react-icons/md';
+import { FaFan } from 'react-icons/fa';
 import ScheduleForm from './ScheduleForm';
 import './ScheduleManager.css';
 
@@ -96,8 +110,12 @@ function ScheduleManager() {
   };
 
   const getDeviceIcon = (deviceType) => {
-    const icons = { pump: '💧', lamp: '💡', fan: '🌀' };
-    return icons[deviceType] || '📱';
+    const icons = { 
+      pump: '💧', 
+      lamp: '💡', 
+      fan: <FaFan size={18} style={{ color: '#1abc9c' }} /> 
+    };
+    return icons[deviceType] || <MdPowerSettingsNew size={18} />;
   };
 
   const getDeviceName = (deviceType) => {
@@ -135,13 +153,10 @@ function ScheduleManager() {
     <div className="schedule-manager">
       <div className="sm-header">
         <div>
-          <button onClick={() => navigate('/dashboard')} className="btn-back">
-            ← Về Dashboard
-          </button>
-          <h2>📅 Quản Lý Hẹn Giờ</h2>
+          <h2> Quản Lý Hẹn Giờ</h2>
         </div>
         <button onClick={handleAddNew} className="btn-add">
-          ➕ Thêm Lịch Hẹn
+          <MdAdd size={18} /> 
         </button>
       </div>
 
@@ -150,12 +165,12 @@ function ScheduleManager() {
       {/* Filters */}
       <div className="filter-bar">
         <div className="filter-group">
-          <label>🔍 Thiết bị:</label>
+          <label><MdSearch size={16} /> Thiết bị:</label>
           <select value={filter.deviceType} onChange={(e) => setFilter({...filter, deviceType: e.target.value})}>
             <option value="all">Tất cả</option>
-            <option value="pump">💧 Bơm</option>
-            <option value="lamp">💡 Đèn</option>
-            <option value="fan">🌀 Quạt</option>
+            <option value="pump">Bơm</option>
+            <option value="lamp">Đèn</option>
+            <option value="fan">Quạt</option>
           </select>
         </div>
 
@@ -178,7 +193,7 @@ function ScheduleManager() {
         </div>
 
         <button onClick={() => setFilter({ deviceType: 'all', action: 'all', isActive: 'all' })} className="btn-reset">
-          🔄 Reset
+          <MdRefresh size={16} /> Reset
         </button>
       </div>
 
@@ -209,15 +224,15 @@ function ScheduleManager() {
                   <td>
                     <span className="device-cell">
                       <span className="device-icon">{getDeviceIcon(schedule.deviceType)}</span>
-                      {getDeviceName(schedule.deviceType)}
+                      <span>{getDeviceName(schedule.deviceType)}</span>
                     </span>
                   </td>
                   <td>
                     <span className={`action-badge action-${schedule.action}`}>
-                      {schedule.action === 'on' ? '⚫→🟢 BẬT' : '🟢→⚫ TẮT'}
+                      {schedule.action === 'on' ? <><MdPowerSettingsNew size={16} /> BẬT</> : <><MdPowerSettingsNew size={16} /> TẮT</>}
                     </span>
                   </td>
-                  <td className="time-cell">🕐 {schedule.time}</td>
+                  <td className="time-cell"><MdAccessTime size={16} /> {schedule.time}</td>
                   <td>{getRepeatText(schedule.repeat)}</td>
                   <td className="desc-cell">{schedule.description || '-'}</td>
                   <td>
@@ -225,15 +240,15 @@ function ScheduleManager() {
                       onClick={() => handleToggle(schedule._id)}
                       className={`btn-status ${schedule.isActive ? 'active' : 'inactive'}`}
                     >
-                      {schedule.isActive ? '✅ Bật' : '❌ Tắt'}
+                      {schedule.isActive ? <><MdCheckCircle size={16} /> Bật</> : <><MdCancel size={16} /> Tắt</>}
                     </button>
                   </td>
                   <td>
                     <button onClick={() => handleEdit(schedule)} className="btn-edit" title="Sửa">
-                      ✏️
+                      <MdEdit size={18} />
                     </button>
                     <button onClick={() => handleDelete(schedule._id, schedule.description)} className="btn-delete" title="Xóa">
-                      🗑️
+                      <MdDelete size={18} />
                     </button>
                   </td>
                 </tr>
@@ -245,9 +260,9 @@ function ScheduleManager() {
 
       {/* Stats */}
       <div className="stats-footer">
-        📊 Tổng: <strong>{stats.total}</strong> lịch | 
-        🟢 Hoạt động: <strong>{stats.active}</strong> | 
-        ⚫ Tạm dừng: <strong>{stats.inactive}</strong>
+        <MdBarChart size={16} style={{ color: '#667eea' }} /> Tổng: <strong>{stats.total}</strong> lịch | 
+        <MdCheckCircle size={16} style={{ color: '#28a745' }} /> Hoạt động: <strong>{stats.active}</strong> | 
+        <MdCancel size={16} style={{ color: '#dc3545' }} /> Tạm dừng: <strong>{stats.inactive}</strong>
       </div>
 
       {/* Modal */}

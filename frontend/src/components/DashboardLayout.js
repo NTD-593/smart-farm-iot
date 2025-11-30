@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { 
+  MdDashboard, 
+  MdShowChart, 
+  MdDevices, 
+  MdWbSunny, 
+  MdSchedule, 
+  MdPeople, 
+  MdLogout, 
+  MdWarning,
+  MdChevronLeft,
+  MdChevronRight,
+  MdSpa
+} from 'react-icons/md';
 import './Dashboard.css';
 
 const DashboardLayout = () => {
@@ -16,12 +29,12 @@ const DashboardLayout = () => {
   };
 
   const menuItems = [
-    { icon: '📊', label: 'Tổng quan', path: '/dashboard' },
-    { icon: '📈', label: 'Biểu đồ', path: '/charts' },
-    { icon: '⚡', label: 'Thiết bị', path: '/devices' },
-    { icon: '🌤️', label: 'Thời tiết', path: '/weather' },
-    { icon: '⏰', label: 'Hẹn giờ', path: '/schedules', role: ['OPERATOR', 'ADMIN'] },
-    { icon: '👥', label: 'Người dùng', path: '/users', role: ['ADMIN'] },
+    { icon: MdDashboard, label: 'Tổng quan', path: '/dashboard' },
+    { icon: MdShowChart, label: 'Biểu đồ', path: '/charts' },
+    { icon: MdDevices, label: 'Thiết bị', path: '/devices' },
+    { icon: MdWbSunny, label: 'Thời tiết', path: '/weather' },
+    { icon: MdSchedule, label: 'Hẹn giờ', path: '/schedules', role: ['OPERATOR', 'ADMIN'] },
+    { icon: MdPeople, label: 'Người dùng', path: '/users', role: ['ADMIN'] },
   ];
 
   const filteredMenu = menuItems.filter(item => {
@@ -41,33 +54,36 @@ const DashboardLayout = () => {
       <aside className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
           <div className="logo">
-            <span className="logo-icon">🌱</span>
+            <span className="logo-icon"><MdSpa size={24} /></span>
             {!sidebarCollapsed && <span className="logo-text">Smart Farm</span>}
           </div>
           <button 
             className="sidebar-toggle"
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
           >
-            {sidebarCollapsed ? '→' : '←'}
+            {sidebarCollapsed ? <MdChevronRight size={20} /> : <MdChevronLeft size={20} />}
           </button>
         </div>
 
         <nav className="sidebar-nav">
-          {filteredMenu.map((item, index) => (
-            <button
-              key={index}
-              className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
-              onClick={() => navigate(item.path)}
-            >
-              <span className="nav-icon">{item.icon}</span>
-              {!sidebarCollapsed && <span className="nav-label">{item.label}</span>}
-            </button>
-          ))}
+          {filteredMenu.map((item, index) => {
+            const IconComponent = item.icon;
+            return (
+              <button
+                key={index}
+                className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
+                onClick={() => navigate(item.path)}
+              >
+                <span className="nav-icon"><IconComponent size={20} /></span>
+                {!sidebarCollapsed && <span className="nav-label">{item.label}</span>}
+              </button>
+            );
+          })}
         </nav>
 
         <div className="sidebar-footer">
           <button className="nav-item logout-btn" onClick={() => setShowLogoutModal(true)}>
-            <span className="nav-icon">🚪</span>
+            <span className="nav-icon"><MdLogout size={20} /></span>
             {!sidebarCollapsed && <span className="nav-label">Đăng xuất</span>}
           </button>
         </div>
@@ -77,7 +93,7 @@ const DashboardLayout = () => {
       {showLogoutModal && (
         <div className="modal-overlay" onClick={() => setShowLogoutModal(false)}>
           <div className="logout-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-icon">⚠️</div>
+            <div className="modal-icon"><MdWarning size={48} /></div>
             <h3 className="modal-title">Xác nhận đăng xuất</h3>
             <p className="modal-message">Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?</p>
             <div className="modal-actions">

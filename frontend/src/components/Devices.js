@@ -1,6 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFarm } from '../context/FarmContext';
+import { 
+  MdWaterDrop, 
+  MdBolt, 
+  MdPublic, 
+  MdCheckCircle,
+  MdAccessTime,
+  MdBarChart,
+  MdSchedule,
+  MdCircle,
+  MdLens,
+  MdGrass,
+  MdThermostat,
+  MdWbSunny,
+  MdPerson
+} from 'react-icons/md';
+import { FaFan } from 'react-icons/fa';
+import { GiWaterDrop } from 'react-icons/gi';
 import api from '../services/api';
 import './Devices.css';
 
@@ -20,21 +37,21 @@ const Devices = () => {
     {
       id: 'pump',
       name: 'Máy bơm',
-      icon: '💧',
+      icon: <GiWaterDrop />,
       power: 200,
       color: '#4dabf7',
       sensor: 'Độ ẩm đất',
-      sensorIcon: '🌱',
+      sensorIcon: <MdGrass />,
       unit: '%'
     },
     {
       id: 'fan',
       name: 'Quạt',
-      icon: '🌀',
+      icon: <FaFan />,
       power: 100,
       color: '#51cf66',
       sensor: 'Nhiệt độ',
-      sensorIcon: '🌡️',
+      sensorIcon: <MdThermostat />,
       unit: '°C'
     },
     {
@@ -44,7 +61,7 @@ const Devices = () => {
       power: 250,
       color: '#ffd43b',
       sensor: 'Ánh sáng',
-      sensorIcon: '☀️',
+      sensorIcon: <MdWbSunny />,
       unit: 'lux'
     }
   ];
@@ -208,24 +225,24 @@ const Devices = () => {
       {/* Quick Overview */}
       <div className="overview-cards">
         <div className="overview-card">
-          <div className="overview-icon">💧</div>
+          <div className="overview-icon"><MdWaterDrop size={32} style={{ color: '#4dabf7' }} /></div>
           <div className="overview-content">
             <div className="overview-label">Đang hoạt động</div>
             <div className="overview-value">{getActiveCount()}/3</div>
           </div>
         </div>
         <div className="overview-card">
-          <div className="overview-icon">⚡</div>
+          <div className="overview-icon"><MdBolt size={32} style={{ color: '#f39c12' }} /></div>
           <div className="overview-content">
             <div className="overview-label">Công suất</div>
             <div className="overview-value">{getTotalPower()}W</div>
           </div>
         </div>
         <div className="overview-card">
-          <div className="overview-icon">🌐</div>
+          <div className="overview-icon"><MdPublic size={32} style={{ color: '#51cf66' }} /></div>
           <div className="overview-content">
             <div className="overview-label">Trạng thái</div>
-            <div className="overview-value">✅ Online</div>
+            <div className="overview-value"><MdCheckCircle size={20} style={{ color: '#28a745' }} /> Online</div>
           </div>
         </div>
       </div>
@@ -245,22 +262,22 @@ const Devices = () => {
                 <div className="device-info">
                   <h3>{device.name}</h3>
                   <span className={`status-badge ${isOn ? 'on' : 'off'}`}>
-                    {isOn ? '🟢 ĐANG BẬT' : '⚫ TẮT'}
+                    {isOn ? <><MdCircle size={12} style={{ color: '#28a745' }} /> ĐANG BẬT</> : <><MdCircle size={12} style={{ color: '#6c757d' }} /> TẮT</>}
                   </span>
                 </div>
               </div>
 
               <div className="device-stats">
                 <div className="stat-item">
-                  <span className="stat-icon">⏱️</span>
+                  <span className="stat-icon"><MdAccessTime size={16} style={{ color: '#667eea' }} /></span>
                   <span>{getTodayRuntime(device.id)}</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-icon">🔄</span>
+                  <span className="stat-icon"><MdBarChart size={16} style={{ color: '#51cf66' }} /></span>
                   <span>{getToggleCount(device.id)} lần</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-icon">📊</span>
+                  <span className="stat-icon"><MdBolt size={16} style={{ color: '#f39c12' }} /></span>
                   <span>{isOn ? device.power : 0}W</span>
                 </div>
               </div>
@@ -315,7 +332,7 @@ const Devices = () => {
                   className="config-btn"
                   onClick={() => openConfigModal(device.id)}
                 >
-                  ⚙️ Cấu hình ngưỡng
+                  Cấu hình ngưỡng
                 </button>
               )}
 
@@ -325,7 +342,7 @@ const Devices = () => {
                   className="config-btn"
                   onClick={() => navigate('/schedules')}
                 >
-                  📅 Quản lý lịch hẹn giờ
+                  Quản lý lịch hẹn giờ
                 </button>
               )}
             </div>
@@ -335,19 +352,19 @@ const Devices = () => {
 
       {/* Quick Actions */}
       <div className="quick-actions">
-        <h3>⚡ Điều khiển nhanh</h3>
+        <h3>Điều khiển nhanh</h3>
         <div className="action-buttons">
           <button className="action-btn danger" onClick={() => handleQuickAction('all-off')}>
-            🔴 Tắt tất cả
+            Tắt tất cả
           </button>
           <button className="action-btn success" onClick={() => handleQuickAction('all-on')}>
-            🟢 Bật tất cả
+            Bật tất cả
           </button>
           <button className="action-btn primary" onClick={() => handleQuickAction('night-mode')}>
-            🌙 Chế độ đêm
+           Chế độ đêm
           </button>
           <button className="action-btn secondary" onClick={() => handleQuickAction('reset')}>
-            ♻️ Reset
+             Reset
           </button>
         </div>
       </div>
@@ -355,7 +372,7 @@ const Devices = () => {
       {/* Activity History */}
       <div className="device-history">
         <div className="history-header">
-          <h3>⏰ Lịch sử hoạt động</h3>
+          <h3><MdAccessTime size={20} style={{ color: '#667eea' }} /> Lịch sử hoạt động</h3>
           <select 
             value={selectedDevice} 
             onChange={(e) => setSelectedDevice(e.target.value)}
@@ -379,7 +396,7 @@ const Devices = () => {
               return (
                 <div key={index} className="history-item">
                   <div className={`history-indicator ${item.action === 'on' ? 'on' : 'off'}`}>
-                    {item.action === 'on' ? '🟢' : '🔴'}
+                    {item.action === 'on' ? <MdCircle size={12} style={{ color: '#28a745' }} /> : <MdCircle size={12} style={{ color: '#dc3545' }} />}
                   </div>
                   <div className="history-content">
                     <div className="history-time">{formatTime(item.timestamp)}</div>
@@ -391,7 +408,7 @@ const Devices = () => {
                       <div className="history-reason">{item.reason}</div>
                     )}
                     {item.user && (
-                      <div className="history-user">👤 {item.user}</div>
+                      <div className="history-user"><MdPerson size={14} /> {item.user}</div>
                     )}
                   </div>
                 </div>
@@ -406,7 +423,7 @@ const Devices = () => {
         <div className="modal-overlay" onClick={closeConfigModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>⚙️ Cấu hình cảm biến - {devices.find(d => d.id === configModal.device)?.name}</h3>
+              <h3>Cấu hình cảm biến - {devices.find(d => d.id === configModal.device)?.name}</h3>
               <button className="modal-close" onClick={closeConfigModal}>✕</button>
             </div>
             
@@ -455,12 +472,12 @@ const Devices = () => {
                   </div>
 
                   <div className="config-preview">
-                    <div className="preview-label">🎯 Hoạt động:</div>
+                    <div className="preview-label"><MdBolt size={16} style={{ color: '#667eea' }} /> Hoạt động:</div>
                     <div className="preview-rule">
-                      🟢 BẬT: {devices.find(d => d.id === configModal.device)?.sensor} {'<'} {sensorConfig.minThreshold} {devices.find(d => d.id === configModal.device)?.unit}
+                      <MdCircle size={12} style={{ color: '#28a745' }} /> BẬT: {devices.find(d => d.id === configModal.device)?.sensor} {'<'} {sensorConfig.minThreshold} {devices.find(d => d.id === configModal.device)?.unit}
                     </div>
                     <div className="preview-rule">
-                      🔴 TẮT: {devices.find(d => d.id === configModal.device)?.sensor} {'>'} {sensorConfig.maxThreshold} {devices.find(d => d.id === configModal.device)?.unit}
+                      <MdCircle size={12} style={{ color: '#dc3545' }} /> TẮT: {devices.find(d => d.id === configModal.device)?.sensor} {'>'} {sensorConfig.maxThreshold} {devices.find(d => d.id === configModal.device)?.unit}
                     </div>
                   </div>
                 </>
@@ -472,7 +489,7 @@ const Devices = () => {
                 Hủy
               </button>
               <button className="btn-save" onClick={saveSensorConfig}>
-                💾 Lưu cấu hình
+                Lưu cấu hình
               </button>
             </div>
           </div>

@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { 
+  MdPeople, 
+  MdPersonAdd, 
+  MdEdit, 
+  MdDelete, 
+  MdCheck, 
+  MdClose,
+  MdBlock 
+} from 'react-icons/md';
 import './UserManagement.css';
 
 function UserManagement() {
@@ -181,7 +190,7 @@ function UserManagement() {
   if (!isAdmin()) {
     return (
       <div className="access-denied">
-        <h2>⛔ Không có quyền truy cập</h2>
+        <h2><MdBlock size={24} /> Không có quyền truy cập</h2>
         <p>Chỉ ADMIN mới có thể quản lý người dùng.</p>
       </div>
     );
@@ -195,13 +204,10 @@ function UserManagement() {
     <div className="user-management">
       <div className="um-header">
         <div>
-          <button onClick={() => navigate('/dashboard')} className="btn-back">
-            ← Về Dashboard
-          </button>
-          <h2>👥 Quản Lý Người Dùng</h2>
+          <h2>Quản Lý Người Dùng</h2>
         </div>
         <button onClick={handleAddNew} className="btn-add">
-          ➕ Thêm Người Dùng
+          <MdPersonAdd size={18} />
         </button>
       </div>
 
@@ -234,7 +240,7 @@ function UserManagement() {
                     onClick={() => handleToggleActive(user)}
                     className={`btn-status ${user.isActive ? 'active' : 'inactive'}`}
                   >
-                    {user.isActive ? '✓ Hoạt động' : '✕ Vô hiệu'}
+                    {user.isActive ? <><MdCheck size={16} /> Hoạt động</> : <><MdClose size={16} /> Vô hiệu</>}
                   </button>
                 </td>
                 <td>
@@ -248,14 +254,14 @@ function UserManagement() {
                     className="btn-edit"
                     title="Sửa"
                   >
-                    ✏️
+                    <MdEdit size={18} />
                   </button>
                   <button 
                     onClick={() => handleDelete(user._id, user.username)}
                     className="btn-delete"
                     title="Xóa"
                   >
-                    🗑️
+                    <MdDelete size={18} />
                   </button>
                 </td>
               </tr>
@@ -268,7 +274,7 @@ function UserManagement() {
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>{editingUser ? '✏️ Sửa Người Dùng' : '➕ Thêm Người Dùng Mới'}</h3>
+            <h3>{editingUser ? <><MdEdit size={20} /> Sửa Người Dùng</> : <><MdPersonAdd size={20} /> Thêm Người Dùng Mới</>}</h3>
             
             <form onSubmit={handleSubmit}>
               <div className="form-group">

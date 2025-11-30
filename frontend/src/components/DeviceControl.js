@@ -3,6 +3,7 @@ import { useFarm } from '../context/FarmContext';
 import { useAuth } from '../context/AuthContext';
 import { FaFan, FaLightbulb } from 'react-icons/fa';
 import { GiWaterDrop } from 'react-icons/gi';
+import { MdBolt, MdSchedule, MdSmartToy } from 'react-icons/md';
 import GlobalModeSelector from './GlobalModeSelector';
 import DeviceModeToggle from './DeviceModeToggle';
 import SensorConfig from './SensorConfig';
@@ -161,7 +162,7 @@ const DeviceControl = () => {
   return (
     <div className="device-control">
       <div className="device-header">
-        <h2>⚡ Điều Khiển Thiết Bị</h2>
+        <h2><MdBolt size={24} style={{ color: '#f39c12' }} /> Điều Khiển Thiết Bị</h2>
       </div>
 
       {error && <div className="error-message">{error}</div>}
@@ -208,7 +209,7 @@ const DeviceControl = () => {
                 </span>
                 {!isManual && (
                   <span className="mode-indicator">
-                    {mode === 'schedule' ? '⏰ Chế độ hẹn giờ' : '🤖 Chế độ cảm biến'}
+                    {mode === 'schedule' ? <><MdSchedule size={16} style={{ color: '#667eea' }} /> Chế độ hẹn giờ</> : <><MdSmartToy size={16} style={{ color: '#1abc9c' }} /> Chế độ cảm biến</>}
                   </span>
                 )}
               </div>
