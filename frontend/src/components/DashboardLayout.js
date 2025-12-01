@@ -33,6 +33,7 @@ const DashboardLayout = () => {
     { icon: MdShowChart, label: 'Biểu đồ', path: '/charts' },
     { icon: MdDevices, label: 'Thiết bị', path: '/devices' },
     { icon: MdWbSunny, label: 'Thời tiết', path: '/weather' },
+    { icon: MdWarning, label: 'Cảnh báo', path: '/alerts' },
     { icon: MdSchedule, label: 'Hẹn giờ', path: '/schedules', role: ['OPERATOR', 'ADMIN'] },
     { icon: MdPeople, label: 'Người dùng', path: '/users', role: ['ADMIN'] },
   ];

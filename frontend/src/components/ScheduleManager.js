@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
-  MdSchedule, 
   MdAdd, 
   MdEdit, 
   MdDelete, 
@@ -20,7 +18,6 @@ import './ScheduleManager.css';
 
 function ScheduleManager() {
   const { token } = useAuth();
-  const navigate = useNavigate();
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -34,6 +31,7 @@ function ScheduleManager() {
 
   useEffect(() => {
     loadSchedules();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const loadSchedules = async () => {

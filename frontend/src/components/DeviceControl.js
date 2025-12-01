@@ -8,6 +8,7 @@ import GlobalModeSelector from './GlobalModeSelector';
 import DeviceModeToggle from './DeviceModeToggle';
 import SensorConfig from './SensorConfig';
 import api from '../services/api';
+import { sendManualAlert } from '../services/emailAlert';
 import './DeviceControl.css';
 
 const DeviceControl = () => {
@@ -121,17 +122,23 @@ const DeviceControl = () => {
     try {
       const newStatus = deviceStatus[deviceName] === 'on' ? 'off' : 'on';
       await controlDevice(deviceName, newStatus);
+      
+      // Gửi email cảnh báo khi điều khiển thủ công
+      const isOn = newStatus === 'on';
+      sendManualAlert(deviceName, isOn)
+        .then(result => {
+          if (result.success) {
+            console.log(`📧 Đã gửi email cảnh báo: ${deviceName} ${isOn ? 'BẬT' : 'TẮT'}`);
+          }
+        })
+        .catch(err => console.error('Lỗi gửi email:', err));
+        
     } catch (error) {
       console.error('Lỗi điều khiển:', error);
       alert('Không thể điều khiển thiết bị. Vui lòng thử lại!');
     } finally {
       setLoading(prev => ({ ...prev, [deviceName]: false }));
     }
-  };
-
-  const openSensorConfig = (deviceType) => {
-    setSelectedDevice(deviceType);
-    setShowSensorConfig(true);
   };
 
   const isOperatorOrAdmin = () => {

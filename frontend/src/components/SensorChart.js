@@ -10,6 +10,7 @@ const SensorChart = () => {
 
   useEffect(() => {
     loadChartData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeRange]);
 
   const loadChartData = async () => {

@@ -13,13 +13,7 @@ const Charts = () => {
     soilMoisture: true
   });
 
-  useEffect(() => {
-    fetchHistoryData();
-    const interval = setInterval(fetchHistoryData, 60000); // Cập nhật mỗi phút
-    return () => clearInterval(interval);
-  }, [timeRange]);
-
-  const fetchHistoryData = async () => {
+  const fetchHistoryData = React.useCallback(async () => {
     try {
       console.log('📊 Fetching history data for range:', timeRange);
       setLoading(true);
@@ -33,7 +27,13 @@ const Charts = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [timeRange]);
+
+  useEffect(() => {
+    fetchHistoryData();
+    const interval = setInterval(fetchHistoryData, 60000); // Cập nhật mỗi phút
+    return () => clearInterval(interval);
+  }, [fetchHistoryData]);
 
   // Tính toán thống kê
   const calculateStats = (data, key) => {

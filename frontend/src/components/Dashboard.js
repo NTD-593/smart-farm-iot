@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import SensorDisplay from '../components/SensorDisplay';
 import DeviceControl from '../components/DeviceControl';
 import SensorChart from '../components/SensorChart';
+import ThresholdAlert from '../components/ThresholdAlert';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -94,6 +95,7 @@ const Dashboard = () => {
         {/* Content Area */}
         <main className="content-area">
           <SensorDisplay />
+          <ThresholdAlert />
           <DeviceControl />
           <SensorChart />
         </main>

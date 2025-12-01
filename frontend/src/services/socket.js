@@ -1,4 +1,5 @@
 import config from '../config';
+import { sendScheduledAlert, sendSensorAlert, checkAndAlertThreshold } from './emailAlert';
 
 const SOCKET_URL = config.SOCKET_URL;
 
@@ -9,6 +10,9 @@ class SocketService {
     this._deviceCb = null;
     this._connectCb = null;
     this._disconnectCb = null;
+    this._scheduleCb = null;
+    this._thresholdAlertCb = null;
+    this.thresholdAlertEnabled = true; // Bật/tắt cảnh báo ngưỡng
   }
 
   connect() {
@@ -39,11 +43,49 @@ class SocketService {
             timestamp: msg.createdAt || Date.now()
           };
           if (this._sensorCb) this._sensorCb(payload);
+
+          // Kiểm tra cảnh báo ngưỡng tự động
+          if (this.thresholdAlertEnabled) {
+            this.checkThresholdAlerts(payload);
+          }
         }
 
         // Device status events (if backend sends type: 'deviceStatus')
         else if (msg.type === 'deviceStatus') {
           if (this._deviceCb) this._deviceCb(msg);
+        }
+
+        // Schedule execution events - Gửi email cảnh báo hẹn giờ
+        else if (msg.type === 'scheduleExecuted') {
+          console.log('📅 Lịch hẹn đã thực thi:', msg);
+          if (this._scheduleCb) this._scheduleCb(msg);
+          
+          // Gửi email cảnh báo chế độ hẹn giờ
+          sendScheduledAlert(
+            msg.deviceType,
+            msg.action === 'on',
+            msg.time || new Date().toLocaleTimeString('vi-VN')
+          ).then(result => {
+            if (result.success) {
+              console.log(`📧 Đã gửi email cảnh báo hẹn giờ: ${msg.deviceType}`);
+            }
+          });
+        }
+
+        // Sensor auto control events - Gửi email cảnh báo cảm biến
+        else if (msg.type === 'sensorControl') {
+          console.log('🌡️ Cảm biến tự động điều khiển:', msg);
+          
+          // Gửi email cảnh báo chế độ cảm biến
+          sendSensorAlert(
+            msg.deviceType,
+            msg.action === 'on',
+            msg.sensorInfo || `Ngưỡng: ${msg.threshold || 'N/A'}`
+          ).then(result => {
+            if (result.success) {
+              console.log(`📧 Đã gửi email cảnh báo cảm biến: ${msg.deviceType}`);
+            }
+          });
         }
 
         // Other message types can be handled here
@@ -53,6 +95,22 @@ class SocketService {
     });
 
     return this.socket;
+  }
+
+  // Kiểm tra và gửi cảnh báo khi cảm biến vượt ngưỡng
+  async checkThresholdAlerts(sensorData) {
+    try {
+      const alerts = await checkAndAlertThreshold(sensorData);
+      
+      if (alerts.length > 0) {
+        console.log('🚨 Có cảnh báo ngưỡng:', alerts);
+        if (this._thresholdAlertCb) {
+          this._thresholdAlertCb(alerts);
+        }
+      }
+    } catch (error) {
+      console.error('Lỗi kiểm tra cảnh báo ngưỡng:', error);
+    }
   }
 
   disconnect() {
@@ -78,6 +136,21 @@ class SocketService {
     this._disconnectCb = cb;
   }
 
+  onScheduleExecuted(cb) {
+    this._scheduleCb = cb;
+  }
+
+  // Callback khi có cảnh báo ngưỡng
+  onThresholdAlert(cb) {
+    this._thresholdAlertCb = cb;
+  }
+
+  // Bật/tắt cảnh báo ngưỡng
+  setThresholdAlertEnabled(enabled) {
+    this.thresholdAlertEnabled = enabled;
+    console.log(`🔔 Cảnh báo ngưỡng: ${enabled ? 'BẬT' : 'TẮT'}`);
+  }
+
   controlDevice(data) {
     if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
       console.warn('WebSocket not connected - cannot send control');
@@ -95,4 +168,5 @@ class SocketService {
   }
 }
 
-export default new SocketService();
+const socketService = new SocketService();
+export default socketService;

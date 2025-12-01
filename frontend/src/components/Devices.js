@@ -8,9 +8,7 @@ import {
   MdCheckCircle,
   MdAccessTime,
   MdBarChart,
-  MdSchedule,
   MdCircle,
-  MdLens,
   MdGrass,
   MdThermostat,
   MdWbSunny,
@@ -66,13 +64,7 @@ const Devices = () => {
     }
   ];
 
-  useEffect(() => {
-    fetchData();
-    const interval = setInterval(fetchData, 30000); // Refresh every 30s
-    return () => clearInterval(interval);
-  }, [selectedDevice]);
-
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     try {
       setLoading(true);
       const [modesRes, historyRes, statsRes] = await Promise.all([
@@ -105,7 +97,13 @@ const Devices = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedDevice]);
+
+  useEffect(() => {
+    fetchData();
+    const interval = setInterval(fetchData, 30000); // Refresh every 30s
+    return () => clearInterval(interval);
+  }, [fetchData]);
 
   const handleToggle = async (deviceType) => {
     try {
@@ -180,6 +178,8 @@ const Devices = () => {
             api.patch(`/api/device-modes/${d.id}/mode`, { mode: 'manual' })
           ));
           fetchData();
+          break;
+        default:
           break;
       }
     } catch (error) {

@@ -91,12 +91,12 @@ mqttClient.on('connect', () => {
   });
   
   // ===================== START SERVICES =====================
-  // Initialize scheduler for time-based automation
-  const scheduler = new SchedulerService(mqttClient);
+  // Initialize scheduler for time-based automation (truyền wss để gửi thông báo)
+  const scheduler = new SchedulerService(mqttClient, wss);
   scheduler.start();
   
-  // Initialize sensor controller for sensor-based automation
-  const sensorController = new SensorController(mqttClient);
+  // Initialize sensor controller for sensor-based automation (truyền wss để gửi thông báo)
+  const sensorController = new SensorController(mqttClient, wss);
   sensorController.start();
   
   // Store services in app.locals for route access

@@ -3,9 +3,15 @@ const Schedule = require('../models/Schedule');
 const DeviceMode = require('../models/DeviceMode');
 
 class SchedulerService {
-  constructor(mqttClient) {
+  constructor(mqttClient, wss = null) {
     this.mqttClient = mqttClient;
+    this.wss = wss; // WebSocket server để gửi thông báo đến frontend
     this.isRunning = false;
+  }
+
+  // Cho phép set WebSocket server sau khi khởi tạo
+  setWebSocketServer(wss) {
+    this.wss = wss;
   }
 
   start() {
@@ -107,10 +113,38 @@ class SchedulerService {
 
       await schedule.save();
 
+      // Gửi thông báo qua WebSocket để frontend gửi email cảnh báo
+      this.broadcastScheduleExecution(schedule);
+
       console.log(`[Scheduler] ✅ Executed successfully: ${schedule.deviceType} ${schedule.action}`);
     } catch (error) {
       console.error(`[Scheduler] Execute error:`, error);
     }
+  }
+
+  // Gửi thông báo đến tất cả client khi lịch hẹn được thực thi
+  broadcastScheduleExecution(schedule) {
+    if (!this.wss) {
+      console.log('[Scheduler] WebSocket server not available');
+      return;
+    }
+
+    const message = JSON.stringify({
+      type: 'scheduleExecuted',
+      deviceType: schedule.deviceType,
+      action: schedule.action,
+      time: schedule.time,
+      description: schedule.description,
+      executedAt: new Date().toISOString()
+    });
+
+    this.wss.clients.forEach(client => {
+      if (client.readyState === 1) { // WebSocket.OPEN
+        client.send(message);
+      }
+    });
+
+    console.log(`[Scheduler] 📡 Broadcasted schedule execution: ${schedule.deviceType} ${schedule.action}`);
   }
 
   // Method để test scheduler manually

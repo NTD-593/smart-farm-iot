@@ -10,6 +10,7 @@ import Devices from './components/Devices';
 import Weather from './components/Weather';
 import UserManagement from './components/UserManagement';
 import ScheduleManager from './components/ScheduleManager';
+import ThresholdAlertPage from './components/ThresholdAlertPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -55,6 +56,16 @@ function App() {
             
             {/* Weather - Không cần FarmProvider */}
             <Route path="weather" element={<Weather />} />
+            
+            {/* Threshold Alerts - Cảnh báo ngưỡng */}
+            <Route 
+              path="alerts" 
+              element={
+                <FarmProvider>
+                  <ThresholdAlertPage />
+                </FarmProvider>
+              } 
+            />
             
             {/* User Management - chỉ ADMIN */}
             <Route 

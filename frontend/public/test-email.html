@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Email - Smart Farm</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #667eea;
+      text-align: center;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .info {
+      background: #e7f1ff;
+      color: #004085;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌱 Test Email Smart Farm</h1>
+    
+    <div class="info">
+      <strong>Email nhận:</strong> dat_2151220005@dau.edu.vn<br>
+      <strong>Nội dung:</strong> Email test thử hệ thống cảnh báo
+    </div>
+    
+    <button class="btn" id="sendBtn" onclick="sendTestEmail()">
+      📧 Gửi Email Test
+    </button>
+    
+    <div id="status"></div>
+  </div>
+
+  <script>
+    // Khởi tạo EmailJS
+    emailjs.init('b9eUWvThsFzsnakaM');
+    
+    function sendTestEmail() {
+      const btn = document.getElementById('sendBtn');
+      const status = document.getElementById('status');
+      
+      btn.disabled = true;
+      btn.textContent = '⏳ Đang gửi...';
+      status.innerHTML = '';
+      
+      const templateParams = {
+        to_email: 'dat_2151220005@dau.edu.vn',
+        device_name: 'Máy bơm nước (TEST)',
+        action: 'BẬT',
+        alert_type: '🧪 Test thử hệ thống',
+        scheduled_time: 'Đây là email test - Hệ thống hoạt động bình thường!',
+        timestamp: new Date().toLocaleString('vi-VN')
+      };
+      
+      emailjs.send('service_h3isn6z', 'template_qkk0el8', templateParams)
+        .then(function(response) {
+          console.log('SUCCESS!', response);
+          status.className = 'status success';
+          status.innerHTML = '✅ <strong>Email đã gửi thành công!</strong><br>Kiểm tra hộp thư của bạn.';
+          btn.textContent = '✅ Đã gửi!';
+        })
+        .catch(function(error) {
+          console.log('FAILED...', error);
+          status.className = 'status error';
+          status.innerHTML = '❌ <strong>Lỗi gửi email:</strong><br>' + JSON.stringify(error);
+          btn.disabled = false;
+          btn.textContent = '📧 Thử lại';
+        });
+    }
+  </script>
+</body>
+</html>

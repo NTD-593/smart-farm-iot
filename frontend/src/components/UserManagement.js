@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
-  MdPeople, 
   MdPersonAdd, 
   MdEdit, 
   MdDelete, 
@@ -14,7 +12,6 @@ import './UserManagement.css';
 
 function UserManagement() {
   const { token, isAdmin } = useAuth();
-  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -55,6 +52,7 @@ function UserManagement() {
     if (isAdmin()) {
       loadUsers();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdmin, token]);
 
   // Mở modal thêm user mới

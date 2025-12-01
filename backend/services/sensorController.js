@@ -1,8 +1,9 @@
 const DeviceMode = require('../models/DeviceMode');
 
 class SensorController {
-  constructor(mqttClient) {
+  constructor(mqttClient, wss = null) {
     this.mqttClient = mqttClient;
+    this.wss = wss; // WebSocket server để gửi thông báo đến frontend
     this.currentSensorData = {
       humidity: { value: 0, lastUpdate: null },
       temperature: { value: 0, lastUpdate: null },
@@ -15,6 +16,11 @@ class SensorController {
       lamp: 'unknown',
       fan: 'unknown'
     };
+  }
+
+  // Cho phép set WebSocket server sau khi khởi tạo
+  setWebSocketServer(wss) {
+    this.wss = wss;
   }
 
   async start() {
@@ -280,9 +286,38 @@ class SensorController {
       console.log(`   Payload: ${payload}`);
       console.log(`   Reason: ${sensorType}=${sensorValue}`);
       console.log(`   Expected: ESP32 should ${action.toUpperCase()} the ${device}`);
+
+      // Gửi thông báo qua WebSocket để frontend gửi email cảnh báo
+      this.broadcastSensorControl(device, action, sensorValue, sensorType);
     } catch (error) {
       console.error(`Error publishing command:`, error);
     }
+  }
+
+  // Gửi thông báo đến tất cả client khi cảm biến tự động điều khiển thiết bị
+  broadcastSensorControl(deviceType, action, sensorValue, sensorType) {
+    if (!this.wss) {
+      console.log('[SensorController] WebSocket server not available');
+      return;
+    }
+
+    const message = JSON.stringify({
+      type: 'sensorControl',
+      deviceType: deviceType,
+      action: action,
+      sensorType: sensorType,
+      sensorValue: sensorValue,
+      sensorInfo: `${sensorType} = ${sensorValue}`,
+      executedAt: new Date().toISOString()
+    });
+
+    this.wss.clients.forEach(client => {
+      if (client.readyState === 1) { // WebSocket.OPEN
+        client.send(message);
+      }
+    });
+
+    console.log(`[SensorController] 📡 Broadcasted sensor control: ${deviceType} ${action} (${sensorType}=${sensorValue})`);
   }
 
   stopSensorCheck(deviceType) {
